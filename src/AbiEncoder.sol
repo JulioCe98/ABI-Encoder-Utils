@@ -1,7 +1,12 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.24;
 
-contract AbiEncoder {
+/**
+ * @title  AbiEncoder lib
+ * @author JulioCe98 (With the help of blockchain accelerator and Jose Cruz)
+ * @notice Library created for easy use of abi encoder utils
+ */
+library AbiEncoder {
     /**
      * Creates a unique pool id
      * @param tokenA_ First token address
@@ -13,8 +18,8 @@ contract AbiEncoder {
         address tokenA_,
         address tokenB_,
         uint24 fee_
-    ) external view returns (bytes32 poolId) {
-        (address token0, address token1) = this.sortTokens(tokenA_, tokenB_);
+    ) external pure returns (bytes32 poolId) {
+        (address token0, address token1) = sortTokens(tokenA_, tokenB_);
 
         poolId = keccak256(abi.encodePacked(token0, token1, fee_));
     }
@@ -85,7 +90,7 @@ contract AbiEncoder {
     function sortTokens(
         address tokenA_,
         address tokenB_
-    ) external pure returns (address token0, address token1) {
+    ) public pure returns (address token0, address token1) {
         require(tokenA_ != tokenB_, "IDENTICAL_ADDRESSES");
         require(tokenA_ != address(0) && tokenB_ != address(0), "ZERO_ADDRESS");
 
